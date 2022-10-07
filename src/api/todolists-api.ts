@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from 'axios'
+import {FormikErrorType} from "../features/Login";
 
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
@@ -36,6 +37,15 @@ export const todolistsAPI = {
     }
 }
 
+export const authAPI = {
+    login(data: loginParamsType) {
+       return  instance.post<loginParamsType,AxiosResponse<ResponseType<{userId:string}>>>('/auth/login',data)
+},
+    logout(){
+        return instance.delete('/auth/login')
+    }
+}
+
 // types
 export type TodolistType = {
     id: string
@@ -48,6 +58,13 @@ export type ResponseType<D = {}> = {
     messages: Array<string>
     fieldsErrors: Array<string>
     data: D
+}
+
+type loginParamsType = {
+    email: string
+    password: string
+    rememberMe?: boolean
+    captcha?:string
 }
 
 
